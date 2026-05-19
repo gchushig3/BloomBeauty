@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Producto | Bloom Beauty</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../Controlador/ContrVista/tailwind-config.js"></script>
+  <style>
+    :focus-visible {
+      outline: 3px solid #FB9C83;
+      outline-offset: 2px;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+
+<body class="font-sans text-black bg-white min-h-screen flex flex-col">
+
+  <div id="site-header"></div>
+
+  <main class="max-w-[1100px] w-full mx-auto px-6 py-8 flex-1">
+    <!-- Breadcrumbs mejorados -->
+    <nav class="flex items-center gap-2 text-sm text-gray-500 mb-8" aria-label="Breadcrumb">
+      <a href="../index.html" class="hover:text-coral transition-colors">Inicio</a>
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+      <a href="categoria.html" class="hover:text-coral transition-colors">Productos</a>
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+      <span class="text-brown font-semibold truncate" id="breadcrumb-current">Detalle</span>
+    </nav>
+
+    <section id="product-detail"></section>
+
+    <!-- Sección de Productos Relacionados -->
+    <section class="mt-20" aria-labelledby="related-title">
+      <div class="flex items-center justify-between mb-8 border-b border-gray-100 pb-4">
+        <h2 id="related-title" class="text-2xl font-bold text-brown">También te puede gustar</h2>
+        <a href="categoria.html" class="text-sm font-bold text-coral hover:text-brown transition-colors">Ver todo →</a>
+      </div>
+      <div id="related-products" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+        <!-- Se carga dinámicamente -->
+      </div>
+    </section>
+
+    <!-- Sección de Reseñas mejorada -->
+    <section class="mt-20 grid grid-cols-1 lg:grid-cols-3 gap-12" aria-labelledby="r-title">
+      <div class="lg:col-span-1">
+        <h2 id="r-title" class="text-2xl font-bold text-brown mb-4">Experiencias</h2>
+        <p class="text-gray-600 text-sm mb-6 leading-relaxed">Tu opinión nos ayuda a crecer. Comparte qué tal te fue con este producto.</p>
+        
+        <form id="review-form" class="bg-rose/20 rounded-2xl p-6 border border-rose/30 shadow-sm space-y-4">
+          <div>
+            <label for="r-stars" class="block font-bold text-xs uppercase text-brown mb-1">Calificación</label>
+            <select id="r-stars" class="w-full bg-white rounded-lg px-3 py-2 border border-gray-200 focus:ring-2 focus:ring-coral/20 outline-none">
+              <option value="5">★★★★★ (Excelente)</option>
+              <option value="4">★★★★☆ (Muy bueno)</option>
+              <option value="3">★★★☆☆ (Bueno)</option>
+              <option value="2">★★☆☆☆ (Regular)</option>
+              <option value="1">★☆☆☆☆ (Malo)</option>
+            </select>
+          </div>
+          <div>
+            <label for="r-text" class="block font-bold text-xs uppercase text-brown mb-1">Tu comentario</label>
+            <textarea id="r-text" required rows="3" placeholder="¿Cómo sentiste tu piel?"
+              class="w-full bg-white rounded-lg px-3 py-2 border border-gray-200 focus:ring-2 focus:ring-coral/20 outline-none resize-none"></textarea>
+          </div>
+          <button type="submit" class="w-full bg-coral text-white font-bold py-3 rounded-xl hover:bg-brown transition-all shadow-md active:scale-95">
+            Publicar reseña
+          </button>
+        </form>
+      </div>
+
+      <div class="lg:col-span-2">
+        <div id="review-list" class="space-y-4">
+          <!-- Se carga dinámicamente -->
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script type="module" src="../Controlador/ContrVista/data.js"></script>
+  <script type="module" src="../Controlador/ContrVista/carrito.js"></script>
+  <script type="module" src="../Controlador/ContrVista/main.js"></script>
+  <script type="module" src="../Controlador/ContrVista/header.js"></script>
+  <script type="module" src="../Controlador/ContrVista/view-producto.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Registro / Inicio sesión | Bloom Beauty</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../Controlador/ContrVista/tailwind-config.js"></script>
+  <style>
+    :focus-visible {
+      outline: 3px solid #FB9C83;
+      outline-offset: 2px;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+
+<body class="font-sans text-black bg-white min-h-screen flex flex-col">
+
+  <div id="site-header"></div>
+
+  <main class="max-w-[480px] w-full mx-auto px-6 py-8 flex-1">
+
+    <!-- LOGIN -->
+    <div id="login-container" class="bg-white rounded-xl shadow-card p-8">
+      <h1 class="text-2xl font-bold text-brown text-center mb-6">Inicia sesión</h1>
+      <form id="login" novalidate class="space-y-4">
+        <div>
+          <label for="li-email" class="block font-semibold text-sm mb-1">Email</label>
+          <input id="li-email" type="email" required aria-required="true" aria-describedby="err-li-email" class="w-full bg-white rounded px-3 py-2 border border-gray-300" />
+          <p class="text-red-600 text-xs mt-1" id="err-li-email"></p>
+        </div>
+        <div>
+          <label for="li-pass" class="block font-semibold text-sm mb-1">Contraseña</label>
+          <input id="li-pass" type="password" required aria-required="true" aria-describedby="err-li-pass"
+            class="w-full bg-white rounded px-3 py-2 border border-gray-300" />
+          <p class="text-red-600 text-xs mt-1" id="err-li-pass"></p>
+          <div class="text-right mt-1">
+            <a href="fortgotPass.html" class="text-sm text-brown hover:underline">¿Olvidaste tu contraseña?</a>
+          </div>
+        </div>
+        <button type="submit" class="w-full bg-coral text-white font-semibold py-3 rounded hover:bg-brown transition">
+          Iniciar sesión
+        </button>
+      </form>
+      <p class="text-center mt-6 text-sm">
+        ¿No tienes cuenta?
+        <a href="#" id="go-to-signup" class="text-brown font-bold hover:underline">Regístrate aquí</a>
+      </p>
+    </div>
+
+    <!-- REGISTRO -->
+    <div id="signup-container" hidden class="bg-white rounded-xl shadow-card p-8">
+      <h1 class="text-2xl font-bold text-brown text-center mb-6">Crea tu cuenta</h1>
+      <form id="signup" novalidate class="space-y-4">
+        <div>
+          <label for="su-name" class="block font-semibold text-sm mb-1">Nombres</label>
+          <input id="su-name" required minlength="2" aria-required="true" aria-describedby="err-su-name" class="w-full bg-white rounded px-3 py-2 border border-gray-300" />
+          <p class="text-red-600 text-xs mt-1" id="err-su-name"></p>
+        </div>
+        <div>
+          <label for="su-apellido" class="block font-semibold text-sm mb-1">Apellidos</label>
+          <input id="su-apellido" type="text" required aria-required="true" aria-describedby="err-su-apellido" class="w-full bg-white rounded px-3 py-2 border border-gray-300" />
+          <p class="text-red-600 text-xs mt-1" id="err-su-apellido"></p>
+        </div>
+        <div>
+          <label for="su-cedula" class="block font-semibold text-sm mb-1">Cédula</label>
+          <input id="su-cedula" type="text" inputmode="numeric" maxlength="10" required aria-required="true" aria-describedby="err-su-cedula" class="w-full bg-white rounded px-3 py-2 border border-gray-300" />
+          <p class="text-red-600 text-xs mt-1" id="err-su-cedula"></p>
+        </div>
+        <div>
+          <label for="su-email-reg" class="block font-semibold text-sm mb-1">Email</label>
+          <input id="su-email-reg" type="email" required aria-required="true" aria-describedby="err-su-email-reg" class="w-full bg-white rounded px-3 py-2 border border-gray-300" />
+          <p class="text-red-600 text-xs mt-1" id="err-su-email-reg"></p>
+        </div>        
+        <div>
+          <label for="su-pass" class="block font-semibold text-sm mb-1">Contraseña (mín. 6 caracteres)</label>
+          <input id="su-pass" type="password" required minlength="6" aria-required="true" aria-describedby="err-su-pass" class="w-full bg-white rounded px-3 py-2 border border-gray-300" />
+          <p class="text-red-600 text-xs mt-1" id="err-su-pass"></p>
+        </div>
+        <div>
+          <label for="su-pass2" class="block font-semibold text-sm mb-1">Confirma contraseña</label>
+          <input id="su-pass2" type="password" required aria-required="true" aria-describedby="err-su-pass2"
+            class="w-full bg-white rounded px-3 py-2 border border-gray-300" />
+          <p class="text-red-600 text-xs mt-1" id="err-su-pass2"></p>
+        </div>
+        <div class="flex items-start gap-2 py-2">
+          <input type="checkbox" id="su-promo" class="mt-1 h-4 w-4 text-coral border-gray-300 rounded focus:ring-coral" />
+          <label for="su-promo" class="text-sm text-gray-700 cursor-pointer">
+            Acepto el uso de mis datos con fines de promoción, marketing y ofertas exclusivas de Bloom Beauty.
+          </label>
+        </div>
+        <button type="submit" class="w-full bg-coral text-white font-semibold py-3 rounded hover:bg-brown transition">
+          Registrarme
+        </button>
+      </form>
+      <p class="text-center mt-6 text-sm">
+        ¿Ya tienes cuenta?
+        <a href="#" id="go-to-login" class="text-brown font-bold underline">Inicia sesión</a>
+      </p>
+    </div>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script type="module" src="../Controlador/ContrVista/carrito.js"></script>
+  <script type="module" src="../Controlador/ContrVista/main.js"></script>
+  <script type="module" src="../Controlador/ContrVista/header.js"></script>
+  <script type="module" src="../Controlador/ContrVista/view-login.js"></script>
+</body>
+
+</html>

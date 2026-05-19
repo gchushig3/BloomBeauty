@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Productos | Bloom Beauty</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../controlador/contrvista/tailwind-config.js"></script>
+  <style>
+    :focus-visible {
+      outline: 3px solid #FB9C83;
+      outline-offset: 2px;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+
+<body class="font-sans text-black bg-white min-h-screen flex flex-col">
+
+  <div id="site-header"></div>
+
+  <main class="max-w-[1400px] w-full mx-auto px-6 py-8 flex-1">
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+      <h1 id="page-title" class="text-3xl font-bold text-brown">Productos</h1>
+      
+      <!-- Botón para abrir filtros en Móvil -->
+      <button id="btn-open-filters" aria-expanded="false" aria-controls="filter-sidebar" class="md:hidden flex items-center justify-center gap-2 bg-rose text-brown px-4 py-2 rounded-xl font-bold border border-rose/50 shadow-sm active:scale-95 transition-all">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 12h9.75M10.5 18h9.75M3 6h3m-3 6h3m-3 6h3" />
+        </svg>
+        Filtrar Productos
+      </button>
+    </div>
+
+    <!-- Overlay para el fondo cuando los filtros están abiertos en móvil -->
+    <div id="filter-overlay" aria-hidden="true" class="fixed inset-0 bg-black/40 z-[55] hidden md:hidden transition-opacity"></div>
+
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-16 items-start">
+      <!-- ============== FILTROS ============== -->
+      <aside id="filter-sidebar" 
+             class="fixed inset-y-0 left-0 z-[60] w-[280px] bg-white p-6 overflow-y-auto transform -translate-x-full transition-transform duration-300 ease-in-out 
+                    md:relative md:translate-x-0 md:w-full md:col-span-3 md:bg-rose/20 md:rounded-3xl md:border md:border-rose/40 md:p-6 md:z-auto md:h-fit shadow-xl md:shadow-none"
+             role="complementary" aria-label="Filtros de productos">
+        
+        <!-- Botón Cerrar (Solo Móvil) -->
+        <button id="btn-close-filters" class="md:hidden absolute top-4 right-4 text-brown p-2" aria-label="Cerrar filtros">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+
+        <!-- Grupo Marca -->
+        <div class="filter-section mb-10">
+          <label class="block text-sm font-bold text-brown uppercase tracking-wider mb-3">Marca</label>
+          <div class="space-y-2">
+            <label class="flex items-center gap-2 text-sm cursor-pointer hover:text-coral transition-colors">
+              <input type="checkbox" name="brand" value="La Roche-Posay" class="filter-checkbox w-4 h-4 rounded border-gray-300 text-coral focus:ring-coral">
+              <span>La Roche-Posay</span>
+            </label>
+            <label class="flex items-center gap-2 text-sm cursor-pointer hover:text-coral transition-colors">
+              <input type="checkbox" name="brand" value="Nivea" class="filter-checkbox w-4 h-4 rounded border-gray-300 text-coral focus:ring-coral">
+              <span>Nivea</span>
+            </label>
+            <label class="flex items-center gap-2 text-sm cursor-pointer hover:text-coral transition-colors">
+              <input type="checkbox" name="brand" value="CeraVe" class="filter-checkbox w-4 h-4 rounded border-gray-300 text-coral focus:ring-coral">
+              <span>CeraVe</span>
+            </label>
+            <label class="flex items-center gap-2 text-sm cursor-pointer hover:text-coral transition-colors">
+              <input type="checkbox" name="brand" value="Eucerin" class="filter-checkbox w-4 h-4 rounded border-gray-300 text-coral focus:ring-coral">
+              <span>Eucerin</span>
+            </label>
+            <label class="flex items-center gap-2 text-sm cursor-pointer hover:text-coral transition-colors">
+              <input type="checkbox" name="brand" value="Bioderma" class="filter-checkbox w-4 h-4 rounded border-gray-300 text-coral focus:ring-coral">
+              <span>Bioderma</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Grupo Tipo de Piel -->
+        <div class="filter-section mb-10">
+          <label class="block text-sm font-bold text-brown uppercase tracking-wider mb-3">Tipo de piel</label>
+          <div class="space-y-2">
+            <label class="flex items-center gap-2 text-sm cursor-pointer hover:text-coral transition-colors">
+              <input type="checkbox" name="skin" value="seca" class="filter-checkbox w-4 h-4 rounded border-gray-300 text-coral focus:ring-coral">
+              <span>Seca</span>
+            </label>
+            <label class="flex items-center gap-2 text-sm cursor-pointer hover:text-coral transition-colors">
+              <input type="checkbox" name="skin" value="grasa" class="filter-checkbox w-4 h-4 rounded border-gray-300 text-coral focus:ring-coral">
+              <span>Grasa</span>
+            </label>
+            <label class="flex items-center gap-2 text-sm cursor-pointer hover:text-coral transition-colors">
+              <input type="checkbox" name="skin" value="sensible" class="filter-checkbox w-4 h-4 rounded border-gray-300 text-coral focus:ring-coral">
+              <span>Sensible</span>
+            </label>
+            <label class="flex items-center gap-2 text-sm cursor-pointer hover:text-coral transition-colors">
+              <input type="checkbox" name="skin" value="madura" class="filter-checkbox w-4 h-4 rounded border-gray-300 text-coral focus:ring-coral">
+              <span>Madura</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Grupo Rango de Precios -->
+        <div class="filter-section">
+          <label class="block text-sm font-bold text-brown uppercase tracking-wider mb-4">Rango de Precio</label>
+          <div class="flex items-center gap-2">
+            <div class="relative flex-1">
+              <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-xs font-bold pointer-events-none">$</span>
+              <input id="f-min" type="number" min="0" placeholder="Mín" aria-label="Precio mínimo"
+                class="w-full bg-white rounded-xl pl-7 pr-3 py-2.5 border border-gray-200 focus:border-coral focus:ring-4 focus:ring-coral/10 outline-none transition-all text-sm shadow-sm" />
+            </div>
+            <span class="text-gray-300 font-bold">—</span>
+            <div class="relative flex-1">
+              <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-xs font-bold pointer-events-none">$</span>
+              <input id="f-max" type="number" min="0" placeholder="Máx" aria-label="Precio máximo"
+                class="w-full bg-white rounded-xl pl-7 pr-3 py-2.5 border border-gray-200 focus:border-coral focus:ring-4 focus:ring-coral/10 outline-none transition-all text-sm shadow-sm" />
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <div class="md:col-span-9">
+        <!-- Burbujas de filtros activos -->
+        <div id="active-filters" class="flex flex-wrap items-center gap-3 mb-8 hidden">
+          <div id="chips-container" class="flex flex-wrap gap-2"></div>
+          <button id="btn-clear-top" class="text-sm font-bold text-coral hover:text-brown transition-colors ml-2 flex items-center gap-1">
+            Limpiar filtros
+          </button>
+        </div>
+
+        <section id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-8 gap-y-12" aria-live="polite">
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script type="module" src="../controlador/contrvista/data.js"></script>
+  <script type="module" src="../controlador/contrvista/carrito.js"></script>
+  <script type="module" src="../controlador/contrvista/main.js"></script>
+  <script type="module" src="../controlador/contrvista/header.js"></script>
+  <script type="module" src="../controlador/contrvista/categoria.js"></script>
+</body>
+
+</html>

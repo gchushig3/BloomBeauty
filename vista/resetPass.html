@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registro / Inicio sesión | Bloom Beauty</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../Controlador/ContrVista/tailwind-config.js"></script>
+    <style>
+        :focus-visible {
+            outline: 3px solid #FB9C83;
+            outline-offset: 2px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+
+<body class="font-sans text-black bg-white min-h-screen flex flex-col">
+
+    <div id="site-header"></div>
+
+    <main class="max-w-[480px] w-full mx-auto px-6 py-12 flex-1">
+        <div class="bg-white rounded-xl shadow-card p-8">
+            <h1 class="text-2xl font-bold text-brown text-center mb-6">Cambio de Contraseña</h1>
+            <form id="reset-pass-form" class="space-y-6">
+                <div>
+                    <label for="new-pass" class="block font-semibold text-sm mb-1">Nueva contraseña</label>
+                    <input id="new-pass" type="password" required aria-required="true" minlength="6" aria-describedby="err-new-pass"
+                        class="w-full bg-white rounded px-3 py-2 border border-gray-300 focus:border-coral outline-none transition-all shadow-sm" />
+                    <p class="text-red-600 text-xs mt-1" id="err-new-pass"></p>
+                </div>
+                <div>
+                    <label for="confirm-pass" class="block font-semibold text-sm mb-1">Confirmar Contraseña</label>
+                    <input id="confirm-pass" type="password" required aria-required="true" minlength="6" aria-describedby="err-confirm-pass"
+                        class="w-full bg-white rounded px-3 py-2 border border-gray-300 focus:border-coral outline-none transition-all shadow-sm" />
+                    <p class="text-red-600 text-xs mt-1" id="err-confirm-pass"></p>
+                </div>
+                <button type="submit" class="w-full bg-coral text-white font-semibold py-3 rounded hover:bg-brown transition shadow-md">
+                    Cambiar contraseña
+                </button>
+            </form>
+        </div>
+    </main>
+
+    <div id="site-footer"></div>
+
+    <script type="module" src="../Controlador/ContrVista/carrito.js"></script>
+    <script type="module" src="../Controlador/ContrVista/main.js"></script>
+    <script type="module" src="../Controlador/ContrVista/header.js"></script>
+    <script type="module" src="../Controlador/ContrVista/view-reset-pass.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description"
+    content="Bloom Beauty - Tienda de skincare con las mejores marcas: La Roche-Posay, Nivea, CeraVe, Eucerin y Bioderma." />
+  <title>Bloom Beauty | Cuidado de tu piel</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="controlador/contrvista/tailwind-config.js"></script>
+
+  <style>
+    :focus-visible {
+      outline: 3px solid #FB9C83;
+      outline-offset: 2px;
+      border-radius: 4px;
+    }
+    /* Barra de desplazamiento personalizada para "Lo más vendido" */
+    .custom-scrollbar {
+      scrollbar-width: thin;
+      scrollbar-color: #956659 #F6D4CB;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      height: 8px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #F6D4CB; /* rose */
+      border-radius: 10px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #956659; /* brown */
+      border-radius: 10px;
+    }
+    /* Ocultar barra de desplazamiento manteniendo funcionalidad */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;  /* IE y Edge */
+      scrollbar-width: none;  /* Firefox */
+    }
+  </style>
+</head>
+
+<body class="font-sans text-black bg-white min-h-screen flex flex-col">
+  <div id="site-header"></div>
+
+  <main class="mt-4 md:mt-8 px-6">
+    <div class="relative overflow-hidden w-full max-w-[1400px] mx-auto rounded-2xl shadow-xl bg-gray-200">
+      <div id="carousel-inner" class="flex transition-transform duration-500 ease-in-out">
+
+        <div class="min-w-full h-[250px] sm:h-[350px] md:h-[450px] lg:h-[550px] relative group">
+          <img src="https://t3.ftcdn.net/jpg/07/13/17/14/360_F_713171446_OfoC6fQ4m03FqFA3vbgaYbe4561h5fXc.jpg"
+            class="w-full h-full object-cover">
+          <div class="absolute inset-0 bg-black/30 flex flex-col justify-center items-start px-8 md:px-16 text-white">
+            <span class="bg-coral px-3 py-1 rounded-full text-[10px] md:text-xs font-bold uppercase mb-2">Oferta
+              Especial</span>
+            <h2 class="text-2xl md:text-4xl lg:text-6xl font-bold mb-2 leading-tight">30% de Descuento</h2>
+            <p class="text-sm md:text-lg lg:text-2xl opacity-90">En cremas hidratantes seleccionadas</p>
+            <a href="vista/categoria.html?cat=ofertas"
+              class="mt-4 bg-white text-gray-900 px-4 md:px-6 py-2 rounded-lg font-semibold hover:bg-coral hover:text-white transition inline-block text-sm md:text-base">
+              Comprar ahora
+            </a>
+          </div>
+        </div>
+
+        <div class="min-w-full h-[250px] sm:h-[350px] md:h-[450px] lg:h-[550px] relative">
+          <img src="https://el-mejor.com/imagenes/tipos-de-tratamientos-antiedad-2048x1364.jpg"
+            class="w-full h-full object-cover">
+          <div class="absolute inset-0 bg-black/40 flex flex-col justify-center items-center text-center px-8 md:px-16 text-white">
+            <h2 class="text-2xl md:text-4xl lg:text-6xl font-bold mb-2 leading-tight">Tratamientos Antiedad</h2>
+            <p class="text-sm md:text-lg lg:text-2xl opacity-90">Luce una piel radiante y joven</p>
+            <a href="vista/categoria.html?prob=arrugas"
+              class="mt-4 border-2 border-white px-4 md:px-6 py-2 rounded-lg font-semibold hover:bg-white hover:text-gray-900 transition inline-block text-sm md:text-base">
+              Ver productos
+            </a>
+          </div>
+        </div>
+
+        <div class="min-w-full h-[250px] sm:h-[350px] md:h-[450px] lg:h-[550px] relative">
+          <img src="https://images.healthshots.com/healthshots/en/uploads/2023/11/18111254/skin-serums.jpg"
+            class="w-full h-full object-cover">
+          <div class="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent flex flex-col justify-center items-start px-8 md:px-16 text-white">
+            <h2 class="text-2xl md:text-4xl lg:text-6xl font-bold mb-2 leading-tight">Nuevos Serums</h2>
+            <p class="text-sm md:text-lg lg:text-2xl opacity-90">Nutrición profunda para tu rostro</p>
+            <a href="vista/categoria.html?cat=serums"
+              class="mt-4 bg-coral text-white px-4 md:px-6 py-2 rounded-lg font-semibold hover:bg-brown transition inline-block text-sm md:text-base">
+              Explorar
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <section class="max-w-3xl mx-auto text-center py-10 px-6">
+    <p class="text-lg text-gray-700">
+      En <strong class="text-brown">Bloom Beauty</strong> seleccionamos cuidadosamente productos
+      de distintas marcas para el cuidado de tu piel, ayudándote a encontrar lo que realmente
+      funciona para tu rostro.
+    </p>
+  </section>
+
+  <section class="max-w-[1400px] mx-auto px-6 py-8" aria-labelledby="ofertas-title">
+    <h2 id="ofertas-title" class="text-3xl font-bold text-brown text-center mb-8">¡Conoce nuestras Ofertas!</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <article class="bg-rose rounded-xl shadow-soft overflow-hidden flex flex-col">
+        <h3 class="text-lg font-bold text-center py-4 px-2">30% en La Roche-Posay</h3>
+        <img src="https://cdn.notinoimg.com/images/gallery/spage/LRP-320x350-citliva-2024_20241101_19.jpg"
+          alt="Productos La Roche-Posay en oferta" class="w-full h-56 object-contain bg-white" />
+        <a class="block text-center bg-coral text-white font-semibold py-3 hover:bg-brown transition"
+          href="vista/categoria.html?marca=la-roche-posay">Comprar aquí</a>
+      </article>
+      <article class="bg-rose rounded-xl shadow-soft overflow-hidden flex flex-col">
+        <h3 class="text-lg font-bold text-center py-4">20% en NIVEA</h3>
+        <img src="https://dermashop.ec/web/image/product.template/7389/image_1024" alt="Productos Nivea en oferta"
+          class="w-full h-56 object-contain bg-white" />
+        <a class="block text-center bg-coral text-white font-semibold py-3 hover:bg-brown transition"
+          href="vista/categoria.html?marca=nivea">Comprar aquí</a>
+      </article>
+      <article class="bg-rose rounded-xl shadow-soft overflow-hidden flex flex-col">
+        <h3 class="text-lg font-bold text-center py-4">30% en CeraVe</h3>
+        <img src="https://dermashop.ec/web/image/product.template/7955/image_1024" alt="Productos CeraVe en oferta"
+          class="w-full h-56 object-contain bg-white" />
+        <a class="block text-center bg-coral text-white font-semibold py-3 hover:bg-brown transition"
+          href="vista/categoria.html?marca=cerave">Comprar aquí</a>
+      </article>
+    </div>
+  </section>
+
+  <section class="max-w-[1400px] mx-6 xl:mx-auto px-6 py-8 md:py-12 bg-rose rounded-2xl md:rounded-3xl mt-10 mb-0" aria-labelledby="best-title">
+    <h2 id="best-title" class="text-xl md:text-3xl font-bold text-brown text-center mb-6 md:mb-10">¡Lo más Vendido!</h2>
+    <div class="relative px-2 md:px-12">
+      <button id="prev-best" class="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white/80 p-2 rounded-full shadow-md hover:bg-white transition text-brown disabled:opacity-30" aria-label="Anterior">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+        </svg>
+      </button>
+      
+      <div class="overflow-x-auto snap-x snap-mandatory scroll-smooth custom-scrollbar px-4 md:px-0 pb-6">
+        <div id="bestsellers-grid" class="flex flex-nowrap w-max gap-6 py-2 md:py-4"></div>
+      </div>
+
+      <button id="next-best" class="hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white/80 p-2 rounded-full shadow-md hover:bg-white transition text-brown disabled:opacity-30" aria-label="Siguiente">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+        </svg>
+      </button>
+    </div>
+  </section>
+
+  <!-- ============== MARCAS ============== -->
+  <section class="max-w-[1400px] mx-auto px-6 pt-8 pb-4 md:pt-12 md:pb-6" aria-labelledby="brands-title">
+    <h2 id="brands-title" class="text-3xl md:text-4xl font-bold text-brown text-center mb-12 md:mb-16">Nuestras Marcas</h2>
+    <div id="brands-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-12 md:gap-16 items-center justify-items-center min-h-[100px]">
+      <div class="text-gray-400 text-sm animate-pulse col-span-full">Cargando marcas...</div>
+    </div>
+  </section>
+
+  <div id="site-footer"></div>
+
+  <!-- ============== TUTORIAL NUEVOS USUARIOS ============== -->
+  <div id="welcome-tour" class="hidden fixed inset-0 z-[100] bg-black/50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-xl shadow-card max-w-md w-full p-8">
+      <h3 class="text-xl font-bold text-brown mb-4">¡Bienvenido/a a Bloom Beauty!🌸</h3>
+      <ul class="space-y-2 mb-6 text-gray-700">
+        <li>🛍️ Explora <strong>Productos</strong> o <strong>Marcas</strong> en el menú.</li>
+        <li>🛒 Añade al <strong>Carrito</strong> con un clic.</li>
+        <li>💬 Deja tus <strong>reseñas</strong> en cada producto.</li>
+      </ul>
+      <button id="tour-start-button" class="w-full bg-coral text-white font-semibold py-3 rounded hover:bg-brown transition">
+        Empezar
+      </button>
+    </div>
+  </div>
+
+  <script type="module" src="controlador/contrvista/data.js"></script>
+  <script type="module" src="controlador/contrvista/carrito.js"></script>
+  <script type="module" src="controlador/contrvista/main.js"></script>
+  <script type="module" src="controlador/contrvista/header.js"></script>
+  <script type="module" src="controlador/contrvista/carousel.js"></script>
+</body>
+<!-- Intento Final -->
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Carrito | Bloom Beauty</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../Controlador/ContrVista/tailwind-config.js"></script>
+  <style>
+    :focus-visible {
+      outline: 3px solid #FB9C83;
+      outline-offset: 2px;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+
+<body class="font-sans text-black bg-white min-h-screen flex flex-col">
+
+  <div id="site-header"></div>
+
+  <main class="max-w-[1000px] w-full mx-auto px-6 py-8 flex-1">
+    <h1 class="text-3xl font-bold text-brown mb-6">Tu Carrito</h1>
+    <div id="cart-content"></div>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script type="module" src="../Controlador/ContrVista/data.js"></script>
+  <script type="module" src="../Controlador/ContrVista/carrito.js"></script>
+  <script type="module" src="../Controlador/ContrVista/main.js"></script>
+  <script type="module" src="../Controlador/ContrVista/header.js"></script>
+  <script type="module" src="../Controlador/ContrVista/view-carrito.js"></script>
+</body>
+
+</html>

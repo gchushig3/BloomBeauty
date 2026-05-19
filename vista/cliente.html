@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mi Perfil | Bloom Beauty</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../Controlador/ContrVista/tailwind-config.js"></script>
+  <style>
+    :focus-visible {
+      outline: 3px solid #FB9C83;
+      outline-offset: 2px;
+      border-radius: 4px;
+    }
+    .tab-active {
+      background-color: #F6D4CB; /* rose */
+      color: #956659; /* brown */
+      border-right: 4px solid #FB9C83; /* coral */
+    }
+  </style>
+</head>
+<body class="font-sans text-black bg-white min-h-screen flex flex-col">
+
+  <div id="site-header"></div>
+
+  <main class="max-w-[1200px] w-full mx-auto px-6 py-10 flex-1">
+    <div id="auth-check" class="hidden text-center py-20">
+      <p class="text-gray-500 mb-6">Debes iniciar sesión para acceder a tu perfil.</p>
+      <a href="login.html" class="bg-coral text-white font-bold px-8 py-3 rounded-xl hover:bg-brown transition shadow-md">Iniciar Sesión</a>
+    </div>
+
+    <div id="client-content" class="grid grid-cols-1 md:grid-cols-4 gap-8">
+      <!-- Sidebar de Navegación -->
+      <aside class="md:col-span-1 space-y-2">
+        <div class="mb-6 px-4">
+          <h1 class="text-2xl font-bold text-brown">Mi Cuenta</h1>
+          <p class="text-sm text-gray-500" id="user-welcome">¡Hola!</p>
+        </div>
+        <nav class="flex flex-col border-r border-gray-100">
+          <button data-tab="perfil" class="tab-btn text-left px-4 py-3 font-semibold text-gray-600 hover:bg-rose/20 transition-all rounded-l-lg tab-active">Tu Perfil</button>
+          <button data-tab="pedidos" class="tab-btn text-left px-4 py-3 font-semibold text-gray-600 hover:bg-rose/20 transition-all rounded-l-lg">Mis Pedidos</button>
+          <button data-tab="favoritos" class="tab-btn text-left px-4 py-3 font-semibold text-gray-600 hover:bg-rose/20 transition-all rounded-l-lg">Favoritos</button>
+          <button data-tab="reseñas" class="tab-btn text-left px-4 py-3 font-semibold text-gray-600 hover:bg-rose/20 transition-all rounded-l-lg">Tus Reseñas</button>
+          <button id="btn-logout" class="text-left px-4 py-3 font-bold text-red-500 hover:bg-red-50 transition-all rounded-l-lg mt-4 border-t border-gray-100">Cerrar Sesión</button>
+        </nav>
+      </aside>
+
+      <!-- Área de Contenido -->
+      <section class="md:col-span-3 bg-white border border-gray-100 rounded-3xl p-8 shadow-soft min-h-[400px]">
+        <!-- Tab: Perfil -->
+        <div id="pane-perfil" class="tab-pane space-y-6">
+          <h2 class="text-xl font-bold text-brown border-b pb-2">Información Personal</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div><label class="block text-xs font-bold text-gray-400 uppercase mb-1">Nombre Completo</label><p id="p-name" class="text-gray-800 font-medium bg-gray-50 p-3 rounded-lg">---</p></div>
+            <div><label class="block text-xs font-bold text-gray-400 uppercase mb-1">Identificación (CI/RUC)</label><p id="p-ci" class="text-gray-800 font-medium bg-gray-50 p-3 rounded-lg">---</p></div>
+            <div><label class="block text-xs font-bold text-gray-400 uppercase mb-1">Teléfono</label><p id="p-phone" class="text-gray-800 font-medium bg-gray-50 p-3 rounded-lg">---</p></div>
+            <div><label class="block text-xs font-bold text-gray-400 uppercase mb-1">Correo Electrónico</label><p id="p-email" class="text-gray-800 font-medium bg-gray-50 p-3 rounded-lg">---</p></div>
+          </div>
+        </div>
+
+        <!-- Tab: Pedidos -->
+        <div id="pane-pedidos" class="tab-pane hidden space-y-4">
+          <h2 class="text-xl font-bold text-brown border-b pb-2">Historial de Pedidos</h2>
+          <!-- Los pedidos del usuario se renderizarán aquí -->
+          <div id="order-list" class="grid grid-cols-1 gap-4"></div>
+        </div>
+
+        <!-- Tab: Favoritos -->
+        <div id="pane-favoritos" class="tab-pane hidden space-y-4">
+          <h2 class="text-xl font-bold text-brown border-b pb-2">Mis Favoritos</h2>
+          <!-- Los productos favoritos se renderizarán aquí -->
+          <div id="favorites-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-8 gap-y-12"></div>
+        </div>
+
+        <!-- Tab: Reseñas -->
+        <div id="pane-reseñas" class="tab-pane hidden space-y-4">
+          <h2 class="text-xl font-bold text-brown border-b pb-2">Tus Experiencias</h2>
+          <!-- Las reseñas del usuario se renderizarán aquí -->
+          <div id="user-reviews-list" class="space-y-4"></div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script type="module" src="../Controlador/ContrVista/data.js"></script>
+  <script type="module" src="../Controlador/ContrVista/main.js"></script>
+  <script type="module" src="../Controlador/ContrVista/header.js"></script>
+  <script type="module" src="../Controlador/ContrVista/view-cliente.js"></script>
+</body>
+</html>

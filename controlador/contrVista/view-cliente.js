@@ -141,15 +141,18 @@ document.addEventListener("DOMContentLoaded", async () => {
   // Actualizar el indicador del carrito al cargar el perfil
   await updateCartBadge();
 
+  // Manejo de Cerrar Sesión (Escritorio y Móvil)
+  const logoutAction = () => {
+    localStorage.removeItem("bb_user");
+    localStorage.removeItem("bb_cart");
+    localStorage.removeItem("bb_favorites");
+    location.href = "../index.html";
+  };
+
   const btnLogout = document.getElementById("btn-logout");
-  if (btnLogout) {
-    btnLogout.addEventListener("click", () => {
-      localStorage.removeItem("bb_user");
-      localStorage.removeItem("bb_cart");
-      localStorage.removeItem("bb_favorites"); // Limpiar favoritos al salir
-      location.href = "../index.html";
-    });
-  }
+  const btnLogoutMobile = document.getElementById("btn-logout-mobile");
+  if (btnLogout) btnLogout.addEventListener("click", logoutAction);
+  if (btnLogoutMobile) btnLogoutMobile.addEventListener("click", logoutAction);
 });
 
 /**

@@ -48,6 +48,11 @@ function setupEventListeners() {
       let v = e.target.value.replace(/\D/g, '');
       v = v.match(/.{1,4}/g)?.join(' ') || v;
       e.target.value = v.substring(0, 19);
+
+      // Auto-salto al campo de expiración al completar los 16 dígitos
+      if (e.target.value.length === 19) {
+        document.getElementById('exp')?.focus();
+      }
     });
   }
 
@@ -58,6 +63,11 @@ function setupEventListeners() {
       let v = e.target.value.replace(/\D/g, '');
       if (v.length > 2) v = v.substring(0, 2) + '/' + v.substring(2, 4);
       e.target.value = v;
+
+      // Auto-salto al campo de CVV al completar el formato MM/AA
+      if (e.target.value.length === 5) {
+        document.getElementById('cvv')?.focus();
+      }
     });
   }
 

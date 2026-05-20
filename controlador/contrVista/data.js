@@ -392,6 +392,7 @@ export async function updateProductStock(productId, quantityPurchased) {
   if (!p) return false;
   const newStock = Math.max(0, p.prd_stock_min - quantityPurchased);
 
+  allProducts = []; // Limpiar cache para forzar recarga
   const { error } = await supabase.from('producto').update({ prd_stock_min: newStock }).eq('prd_codigo', productId);
   return !error;
 }
@@ -447,13 +448,57 @@ export async function getUserOrders(username) {
   const { data, error } = await supabase
     .from('pedidos')
     .select(`
-      ped_codigo, ped_total, created_at,
-      estado_pedido (est_descripcion)
+      ped_codigo, ped_total, created_at, cli_ci_ruc,
+      estado_pedido (est_codigo, est_descripcion)
     `)
     .eq('cli_ci_ruc', username)
     .order('created_at', { ascending: false }); // Ahora sí podemos ordenar por ella
 
   return error ? [] : data;
+}
+
+/**
+ * Obtiene todos los pedidos registrados en el sistema (Admin)
+ */
+export async function getAllOrders() {
+  const { data, error } = await supabase
+    .from('pedidos')
+    .select(`
+      ped_codigo, ped_total, created_at, cli_ci_ruc,
+      estado_pedido (est_codigo, est_descripcion)
+    `)
+    .order('created_at', { ascending: false });
+
+  return error ? [] : data;
+}
+
+/**
+ * Actualiza el estado de un pedido (Admin)
+ */
+export async function updateOrderStatus(orderId, newStatusId) {
+  const { error } = await supabase
+    .from('pedidos')
+    .update({ est_codigo: parseInt(newStatusId) })
+    .eq('ped_codigo', orderId);
+  return !error;
+}
+
+/**
+ * Aumenta el stock de un producto (Admin)
+ */
+export async function increaseProductStock(productId, amountToAdd) {
+  const { data: p } = await supabase
+    .from('producto')
+    .select('prd_stock_min')
+    .eq('prd_codigo', productId)
+    .single();
+
+  if (!p) return false;
+  const newStock = (p.prd_stock_min || 0) + parseInt(amountToAdd);
+
+  allProducts = []; // Limpiar cache
+  const { error } = await supabase.from('producto').update({ prd_stock_min: newStock }).eq('prd_codigo', productId);
+  return !error;
 }
 
 /**

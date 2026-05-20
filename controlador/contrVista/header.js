@@ -28,8 +28,8 @@
               onsubmit="event.preventDefault(); searchProducts(this.q.value)">
           <label for="mobile-search-input" class="sr-only">Buscar productos</label>
           <input id="mobile-search-input" name="q" type="search" autocomplete="off" placeholder="Buscar mi producto..." class="flex-1 bg-transparent px-2 py-3 outline-none text-gray-800 text-base placeholder:text-gray-400" />
-          <button type="submit" class="px-2 bg-coral text-white transition-colors hover:bg-brown flex items-center justify-center shrink-0" aria-label="Realizar búsqueda">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
+          <button type="submit" class="px-1 bg-coral text-white transition-colors hover:bg-brown flex items-center justify-center shrink-0" aria-label="Realizar búsqueda">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 25 25" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
               <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
             </svg>
           </button>
@@ -129,18 +129,18 @@
         <div id="search-suggestions" class="absolute top-full left-0 right-0 bg-white shadow-card rounded-b-lg mt-1 hidden z-[60] max-h-60 overflow-y-auto border border-gray-100"></div>
       </div>
 
-      <div class="flex items-center gap-6 md:gap-10 text-base">
+      <div class="flex items-center gap-3 sm:gap-6 md:gap-10 text-base shrink-0">
         <!-- Enlace de Usuario / Login -->
-        <a href="${pg}${user ? 'cliente.html' : 'login.html'}" class="flex items-center gap-2 hover:text-brown transition-colors"
+        <a href="${pg}${user ? 'cliente.html' : 'login.html'}" class="flex items-center gap-2 hover:text-brown transition-colors shrink-0"
           aria-label="Iniciar sesión o registrarse">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-round-icon lucide-user-round"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/></svg>
-          <span class="leading-tight font-medium hidden sm:inline-block">${user ? user.name : 'Inicia sesión'}</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-round-icon lucide-user-round shrink-0"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/></svg>
+          <span class="leading-tight font-medium hidden md:inline-block">${user ? user.name : 'Inicia sesión'}</span>
         </a>
 
         <!-- Enlace de Carrito -->
-        <a href="${pg}carrito.html" class="relative flex items-center hover:text-brown transition-colors"
+        <a href="${pg}carrito.html" class="relative flex items-center hover:text-brown transition-colors shrink-0"
           aria-label="Ver carrito de compras">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shopping-cart-icon lucide-shopping-cart"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shopping-cart-icon lucide-shopping-cart shrink-0"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
           <span id="cart-count" aria-live="polite"
                 class="hidden absolute -top-1 -right-2 bg-coral text-white text-[10px] font-bold rounded-full w-5 h-5 flex items-center justify-center border-2 border-white">
             0

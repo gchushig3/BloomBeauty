@@ -12,6 +12,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Verificar si venimos desde el checkout para registrarse directamente
   const params = new URLSearchParams(window.location.search);
+  
+  // Determinar la redirección tras éxito (si viene del checkout, vuelve al checkout)
+  const redirect = params.get('redirect');
+  const successTarget = redirect === 'checkout' ? 'checkout.html' : '../index.html';
+
   if (params.get('mode') === 'signup' && loginCont && signupCont) {
     loginCont.hidden = true;
     signupCont.hidden = false;
@@ -95,8 +100,11 @@ document.addEventListener("DOMContentLoaded", () => {
       const dbFavs = await getFavoritesDB(data.ura_usuario);
       localStorage.setItem("bb_favorites", JSON.stringify(dbFavs));
 
+      // Redirección especial: el administrador siempre es dirigido a su panel de control
+      const destination = data.cliente.cli_correo === 'admin@gloriachushig.com' ? 'admin.html' : successTarget;
+
       if (typeof showToast === 'function') showToast("✓ Sesión iniciada");
-      setTimeout(() => location.href = "../index.html", 1500);
+      setTimeout(() => location.href = destination, 1500);
     });
   }
 
@@ -153,7 +161,7 @@ document.addEventListener("DOMContentLoaded", () => {
         saveCart(getCart());
 
         if (typeof showToast === 'function') showToast("✓ Cuenta creada e iniciada con éxito");
-        setTimeout(() => location.href = "../index.html", 1500);
+        setTimeout(() => location.href = successTarget, 1500);
 
       } catch (error) {
         console.error(error);

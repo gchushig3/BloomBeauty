@@ -41,6 +41,11 @@
       -ms-overflow-style: none;  /* IE y Edge */
       scrollbar-width: none;  /* Firefox */
     }
+    /* Corrección para íconos de búsqueda en móviles y menú hamburguesa */
+    .mobile-search-icon, [id*="search"] svg {
+      flex-shrink: 0;
+      min-width: 1rem;
+    }
   </style>
 </head>
 
@@ -105,23 +110,23 @@
   </section>
 
   <section class="max-w-[1400px] mx-auto px-6 py-8" aria-labelledby="ofertas-title">
-    <h2 id="ofertas-title" class="text-3xl font-bold text-brown text-center mb-8">¡Conoce nuestras Ofertas!</h2>
+    <h2 id="ofertas-title" class="text-3xl font-bold text-brown text-center mb-8">¡Conoce Nuestras Ofertas!</h2>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-      <article class="bg-rose rounded-xl shadow-soft overflow-hidden flex flex-col">
+      <article class="offer-card bg-rose rounded-xl shadow-soft overflow-hidden flex flex-col cursor-pointer" data-href="vista/categoria.html?marca=la-roche-posay">
         <h3 class="text-lg font-bold text-center py-4 px-2">30% en La Roche-Posay</h3>
         <img src="https://cdn.notinoimg.com/images/gallery/spage/LRP-320x350-citliva-2024_20241101_19.jpg"
           alt="Productos La Roche-Posay en oferta" class="w-full h-56 object-contain bg-white" />
         <a class="block text-center bg-coral text-white font-semibold py-3 hover:bg-brown transition"
           href="vista/categoria.html?marca=la-roche-posay">Comprar aquí</a>
       </article>
-      <article class="bg-rose rounded-xl shadow-soft overflow-hidden flex flex-col">
+      <article class="offer-card bg-rose rounded-xl shadow-soft overflow-hidden flex flex-col cursor-pointer" data-href="vista/categoria.html?marca=nivea">
         <h3 class="text-lg font-bold text-center py-4">20% en NIVEA</h3>
         <img src="https://dermashop.ec/web/image/product.template/7389/image_1024" alt="Productos Nivea en oferta"
           class="w-full h-56 object-contain bg-white" />
         <a class="block text-center bg-coral text-white font-semibold py-3 hover:bg-brown transition"
           href="vista/categoria.html?marca=nivea">Comprar aquí</a>
       </article>
-      <article class="bg-rose rounded-xl shadow-soft overflow-hidden flex flex-col">
+      <article class="offer-card bg-rose rounded-xl shadow-soft overflow-hidden flex flex-col cursor-pointer" data-href="vista/categoria.html?marca=cerave">
         <h3 class="text-lg font-bold text-center py-4">30% en CeraVe</h3>
         <img src="https://dermashop.ec/web/image/product.template/7955/image_1024" alt="Productos CeraVe en oferta"
           class="w-full h-56 object-contain bg-white" />

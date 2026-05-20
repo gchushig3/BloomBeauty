@@ -59,10 +59,10 @@ document.addEventListener("DOMContentLoaded", async () => {
         
         return `
           <a href="${baseUrl}categoria.html?marca=${slug}" 
-             class="group w-full flex justify-center items-center p-4 grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition-all duration-500 ease-out"
+             class="group w-full flex justify-center items-center p-2 grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-500 ease-out"
              aria-label="Ver productos de ${b.mar_nombre}">
             <img src="${b.mar_url}" alt="Logo ${b.mar_nombre}" 
-                 class="h-10 md:h-14 lg:h-16 w-auto object-contain transition-transform duration-500 group-hover:scale-110" />
+                 class="h-16 md:h-24 lg:h-28 w-auto object-contain transition-transform duration-500 group-hover:scale-110" />
           </a>
         `;
       }).join("");
@@ -122,7 +122,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         suggestions.innerHTML = matches.map(text => `
           <button type="button" class="w-full text-left p-3 hover:bg-rose/10 transition-colors border-b border-gray-50 last:border-0 flex items-center gap-3 group"
                   onclick="searchProducts('${text.replace(/'/g, "\\'")}')">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400 group-hover:text-coral transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 shrink-0 text-gray-500 group-hover:text-coral transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
             <span class="text-sm text-gray-700 font-medium">${text}</span>

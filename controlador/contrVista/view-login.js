@@ -165,7 +165,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
       } catch (error) {
         console.error(error);
-        if (typeof showToast === 'function') showToast("No se pudo completar el registro: " + (error.message || "Problema de conexión"));
+        if (typeof showToast === 'function') {
+          let userMsg = "No se pudo completar el registro: " + (error.message || "Problema de conexión");
+          
+          if (error.code === '23505') {
+            if (error.message.includes('pk_cliente') || error.message.includes('cli_ci_ruc')) {
+              userMsg = "La cédula ya se encuentra registrada.";
+              setErr("su-cedula", "Esta cédula ya tiene una cuenta");
+            } else if (error.message.includes('cli_correo')) {
+              userMsg = "El correo ya se encuentra registrado.";
+              setErr("su-email-reg", "Este correo ya tiene una cuenta");
+            }
+          }
+          showToast(userMsg);
+        }
       }
     });
   }

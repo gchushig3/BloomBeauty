@@ -9,9 +9,14 @@ let allBrands = [];   // Para almacenar las marcas una vez que se cargan
  * @returns {Promise<Array>} Un array de objetos de producto.
  */
 export async function getProducts() {
-  // Si los productos ya están en memoria, los devolvemos directamente.
-  // Esto hace que la búsqueda sea instantánea y use la lógica avanzada de categoria.js
   if (allProducts.length > 0) {
+    return allProducts;
+  }
+
+  // Intentar recuperar de caché de sesión para evitar peticiones repetidas a la DB
+  const cached = sessionStorage.getItem('bb_products_cache');
+  if (cached) {
+    allProducts = JSON.parse(cached);
     return allProducts;
   }
 
@@ -37,7 +42,20 @@ export async function getProducts() {
   }
 
   // Mapeamos los datos de Supabase al formato esperado por la aplicación
-  const mapped = data.map(p => ({
+  const mapped = data.map(mapProduct);
+  allProducts = mapped;
+  
+  // Guardar en caché de sesión
+  sessionStorage.setItem('bb_products_cache', JSON.stringify(mapped));
+
+  return mapped;
+}
+
+/**
+ * Helper para mapear un objeto de producto de Supabase al formato de la App
+ */
+function mapProduct(p) {
+  return {
     id: p.prd_codigo,
     name: p.prd_descripcion,
     brandCode: p.marca ? p.marca.mar_codigo : null,
@@ -45,7 +63,7 @@ export async function getProducts() {
     catCode: p.categoria ? p.categoria.cat_codigo : null,
     category: p.categoria ? p.categoria.cat_descripcion : 'General', 
     problem: 'general', 
-    skinType: (p.prd_tipo_piel || 'todos').toLowerCase(), 
+    skinType: p.prd_tipo_piel ? p.prd_tipo_piel.trim() : 'TODOS', 
     unitCode: p.unm_codigo,
     price: p.prd_precio_venta,
     oldPrice: (p.prd_precio_ven_ant && p.prd_precio_ven_ant > p.prd_precio_venta) ? p.prd_precio_ven_ant : null,
@@ -54,11 +72,38 @@ export async function getProducts() {
     img: p.prd_url,
     description: p.prd_descripcion,
     includesIVA: true // Asumimos que todos los productos incluyen IVA por defecto
-  }));
+  };
+}
 
-  allProducts = mapped;
+/**
+ * Recupera un único producto por su ID de forma eficiente.
+ */
+export async function getProductById(id) {
+  // 1. Buscar en caché primero
+  const products = await getProducts();
+  const found = products.find(p => String(p.id) === String(id));
+  if (found) return found;
 
-  return mapped;
+  // 2. Si no está en caché, pedir solo este ID a la DB
+  const { data, error } = await supabase
+    .from('producto')
+    .select(`
+      prd_codigo,
+      prd_descripcion,
+      prd_precio_venta,
+      prd_precio_ven_ant,
+      prd_stock_min,
+      prd_url,
+      unm_codigo,
+      prd_tipo_piel,
+      marca (mar_codigo, mar_nombre),
+      categoria (cat_codigo, cat_descripcion)
+    `)
+    .eq('prd_codigo', id)
+    .maybeSingle();
+
+  if (error || !data) return null;
+  return mapProduct(data);
 }
 
 /**
@@ -67,6 +112,12 @@ export async function getProducts() {
  */
 export async function getBrands() {
   if (allBrands.length > 0) {
+    return allBrands;
+  }
+
+  const cached = sessionStorage.getItem('bb_brands_cache');
+  if (cached) {
+    allBrands = JSON.parse(cached);
     return allBrands;
   }
 
@@ -80,6 +131,7 @@ export async function getBrands() {
   }
 
   allBrands = data;
+  sessionStorage.setItem('bb_brands_cache', JSON.stringify(data));
   return allBrands;
 }
 
@@ -389,12 +441,13 @@ export async function updateProductStock(productId, quantityPurchased) {
     .eq('prd_codigo', productId)
     .single();
 
-  if (!p) return false;
+  if (!p) throw new Error(`Producto ${productId} no encontrado para actualizar stock.`);
   const newStock = Math.max(0, p.prd_stock_min - quantityPurchased);
 
   allProducts = []; // Limpiar cache para forzar recarga
   const { error } = await supabase.from('producto').update({ prd_stock_min: newStock }).eq('prd_codigo', productId);
-  return !error;
+  if (error) throw error;
+  return true;
 }
 
 /**

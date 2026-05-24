@@ -99,22 +99,26 @@ document.addEventListener("DOMContentLoaded", async () => {
       });
     };
 
-    input.addEventListener("input", () => {
+    const handleAutocomplete = () => {
       const q = input.value.toLowerCase().trim();
       selectedIndex = -1;
-      if (q.length < 2) {
-        suggestions.innerHTML = "";
-        suggestions.classList.add("hidden");
-        return;
-      }
 
       // Generar sugerencias únicas basadas en Marcas, Categorías y Nombres de productos existentes
       const suggestionsSet = new Set();
-      PRODUCTS.forEach(p => {
-        if (p.brand.toLowerCase().includes(q)) suggestionsSet.add(p.brand);
-        if (p.category.toLowerCase().includes(q)) suggestionsSet.add(p.category);
-        if (p.name.toLowerCase().includes(q)) suggestionsSet.add(p.name);
-      });
+      
+      if (q.length === 0) {
+        // Si está vacío, sugerimos categorías y marcas principales para incentivar la navegación
+        PRODUCTS.forEach(p => {
+          suggestionsSet.add(p.category);
+          suggestionsSet.add(p.brand);
+        });
+      } else {
+        PRODUCTS.forEach(p => {
+          if (p.brand.toLowerCase().includes(q)) suggestionsSet.add(p.brand);
+          if (p.category.toLowerCase().includes(q)) suggestionsSet.add(p.category);
+          if (p.name.toLowerCase().includes(q)) suggestionsSet.add(p.name);
+        });
+      }
 
       const matches = Array.from(suggestionsSet).slice(0, 8);
 
@@ -129,11 +133,16 @@ document.addEventListener("DOMContentLoaded", async () => {
           </button>
         `).join("");
         suggestions.classList.remove("hidden");
-      } else {
+      } else if (q.length > 0) {
         suggestions.innerHTML = `<p class="p-4 text-xs text-gray-500 text-center italic">No hay resultados para "${q}"</p>`;
         suggestions.classList.remove("hidden");
+      } else {
+        suggestions.classList.add("hidden");
       }
-    });
+    };
+
+    input.addEventListener("input", handleAutocomplete);
+    input.addEventListener("focus", handleAutocomplete);
 
     input.addEventListener("keydown", (e) => {
       const btns = suggestions.querySelectorAll('button');

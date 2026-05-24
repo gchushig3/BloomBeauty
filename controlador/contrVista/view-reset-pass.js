@@ -8,6 +8,15 @@ document.addEventListener("DOMContentLoaded", () => {
   const params = new URLSearchParams(location.search);
   const email = params.get('email');
 
+  // Quitar el estado de error al hacer clic o foco en un input
+  document.querySelectorAll('input').forEach(input => {
+    input.addEventListener('focus', () => {
+      if (input.classList.contains('border-red-600')) {
+        setErr(input.id, "");
+      }
+    });
+  });
+
   if (form) {
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -18,7 +27,10 @@ document.addEventListener("DOMContentLoaded", () => {
       const p2 = document.getElementById('confirm-pass').value;
 
       // Validación de estándar (mín 6 caracteres, letras y números)
-      if (!/^(?=.*[A-Za-z])(?=.*\d).{6,}$/.test(p1)) {
+      if (!p1) {
+        setErr("new-pass", "*Campo obligatorio");
+        ok = false;
+      } else if (!/^(?=.*[A-Za-z])(?=.*\d).{6,}$/.test(p1)) {
         setErr("new-pass", "Mínimo 6 caracteres, incluyendo letras y números");
         ok = false;
       } else {
@@ -26,7 +38,10 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       // Validación de coincidencia
-      if (p1 !== p2) {
+      if (!p2) {
+        setErr("confirm-pass", "*Campo obligatorio");
+        ok = false;
+      } else if (p1 !== p2) {
         setErr("confirm-pass", "Las contraseñas no coinciden");
         ok = false;
       } else {
@@ -43,7 +58,18 @@ document.addEventListener("DOMContentLoaded", () => {
       try {
         await updatePasswordByEmail(email, p1);
         if (toast) showToast("✓ Contraseña actualizada con éxito");
-        setTimeout(() => { location.href = "login.html"; }, 2000);
+
+        const redirect = params.get('redirect');
+        let target = "login.html";
+
+        if (redirect === 'checkout') {
+          target = "checkout.html";
+        } else if (redirect) {
+          // Si venía de otra página (ej: producto.html), lo pasamos al login para el redireccionamiento final
+          target = `login.html?redirect=${encodeURIComponent(redirect)}`;
+        }
+
+        setTimeout(() => { location.href = target; }, 2000);
       } catch (error) {
         console.error(error);
         if (toast) showToast("No se pudo actualizar la contraseña. Reintenta.");

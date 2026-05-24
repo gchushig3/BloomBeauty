@@ -1,4 +1,4 @@
-import { getProducts, getReviews, saveReview } from './data.js';
+import { getProducts, getProductById, getReviews, saveReview } from './data.js';
 import { addToCart } from './carrito.js';
 
 /**
@@ -12,8 +12,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   let currentQty = 1;
 
   // 1. Recuperar datos dinámicos
-  const PRODUCTS = await getProducts(); 
-  const product = PRODUCTS.find(p => String(p.id) === productId);
+  // Ahora usamos getProductById que es más rápido que cargar toda la lista
+  const product = await getProductById(productId);
 
   // 2. Validación de existencia
   if (!product) {
@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   // 3. Ejecutar renderizado y eventos
   renderProduct(product);
   await renderReviews(productId);
-  renderRelatedProducts(product, PRODUCTS);
+  renderRelatedProducts(product);
   setupProductEvents(product);
   setupReviewForm(productId);
 
@@ -39,14 +39,32 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (breadcrumbCurrent) breadcrumbCurrent.textContent = p.name;
 
     const isOutOfStock = p.stock === 0;
+
+    // Solo se visualizan como favoritos si el usuario ha iniciado sesión
+    const user = localStorage.getItem("bb_user");
+    const favs = user ? JSON.parse(localStorage.getItem("bb_favorites") || "[]") : [];
+    const isFav = user && favs.includes(String(p.id));
+
     detailContainer.innerHTML = `
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8 bg-white rounded-xl shadow-soft p-6">
         <div class="w-full overflow-hidden rounded-lg bg-gray-50">
           <img src="${p.img}" alt="${p.name}" class="w-full h-auto aspect-square object-contain p-6 transition-transform hover:scale-105" />
         </div>
         <div class="flex flex-col">
-          <p class="text-xs uppercase tracking-wide text-gray-500 font-bold">${p.brand}</p>
-          <h1 class="text-3xl font-bold mt-2 text-gray-800">${p.name}</h1>
+          <div class="flex justify-between items-start gap-4">
+            <div class="flex-1">
+              <p class="text-xs uppercase tracking-wide text-gray-500 font-bold">${p.brand}</p>
+              <h1 class="text-3xl font-bold mt-2 text-gray-800">${p.name}</h1>
+            </div>
+            <!-- Botón Me Gusta (Favoritos) -->
+            <button class="shrink-0 p-3 rounded-2xl bg-rose/10 ${isFav ? 'text-coral border-coral/30' : 'text-gray-400 border-rose/20'} hover:text-coral transition-all shadow-sm border group" 
+                    onclick="window.toggleFavorite('${p.id}', this, event)"
+                    title="${isFav ? 'Quitar de favoritos' : 'Añadir a favoritos'}">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 ${isFav ? 'fill-coral' : 'group-hover:scale-110 transition-transform'}" fill="${isFav ? 'currentColor' : 'none'}" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+              </svg>
+            </button>
+          </div>
           <p class="text-3xl font-bold text-brown mt-3">
             $ ${p.price.toFixed(2)}${p.oldPrice ? ` <small class="text-base text-gray-400 line-through ml-2 font-normal">$${p.oldPrice.toFixed(2)}</small>` : ''}${p.includesIVA ? ` <span class="text-xs text-gray-500 ml-1 font-normal italic whitespace-nowrap">Incluye IVA</span>` : ''}
           </p>
@@ -115,9 +133,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   }
 
-  function renderRelatedProducts(current, all) {
+  async function renderRelatedProducts(current) {
     const container = document.getElementById("related-products");
     if (!container) return;
+
+    const all = await getProducts();
 
     // Filtrar productos de la misma categoría, excluyendo el actual
     const related = all
@@ -170,7 +190,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       const text = document.getElementById("r-text").value.trim();
 
       if (!text) {
-        if (typeof showToast === 'function') showToast("Por favor, escribe tu comentario");
+        if (typeof showToast === 'function') showToast("*Campo obligatorio");
         return;
       }
 

@@ -11,6 +11,24 @@ document.addEventListener("DOMContentLoaded", async () => {
   if (totalEl) totalEl.textContent = "$ " + (await cartTotal()).toFixed(2);
   
   checkUserStatus();
+
+  // Normalización de email en el checkout
+  const emailCheckout = document.getElementById("li-email");
+  if (emailCheckout) {
+    emailCheckout.addEventListener('input', (e) => {
+      e.target.value = e.target.value.toLowerCase();
+    });
+  }
+
+  // Limpiar error visual cuando el usuario interactúa con el campo
+  document.querySelectorAll('input, select, textarea').forEach(el => {
+    el.addEventListener('focus', () => {
+      if (el.classList.contains('border-red-600')) {
+        setError(el.id, "");
+      }
+    });
+  });
+
   setupEventListeners();
   renderBranches();
 });
@@ -53,6 +71,7 @@ function setupEventListeners() {
       if (e.target.value.length === 19) {
         document.getElementById('exp')?.focus();
       }
+      updatePayButtonState();
     });
   }
 
@@ -68,6 +87,7 @@ function setupEventListeners() {
       if (e.target.value.length === 5) {
         document.getElementById('cvv')?.focus();
       }
+      updatePayButtonState();
     });
   }
 
@@ -87,6 +107,13 @@ function setupEventListeners() {
   // Envío final del formulario
   const payForm = document.getElementById("pay-form");
   if (payForm) payForm.addEventListener("submit", processPayment);
+
+  // Listener para CVV y términos para activar el botón de pago
+  ['cvv', 'terms'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('input', updatePayButtonState);
+    if (el) el.addEventListener('change', updatePayButtonState);
+  });
 }
 
 function checkUserStatus() {
@@ -110,16 +137,19 @@ function checkUserStatus() {
 async function handleLogin() {
   const emailEl = document.getElementById("li-email");
   const passEl = document.getElementById("li-pass");
-  const email = emailEl ? emailEl.value.trim() : "";
+  const email = emailEl ? emailEl.value.trim().toLowerCase() : "";
   const pass = passEl ? passEl.value.trim() : "";
 
   let ok = true;
-  if (!email.includes("@")) {
+  if (!email) {
+    setError("li-email", "*Campo obligatorio");
+    ok = false;
+  } else if (!email.includes("@")) {
     setError("li-email", "Ingresa un correo válido");
     ok = false;
   } else setError("li-email", "");
-  if (pass === "") {
-    setError("li-pass", "La contraseña es obligatoria");
+  if (!pass) {
+    setError("li-pass", "*Campo obligatorio");
     ok = false;
   } else setError("li-pass", "");
   
@@ -240,7 +270,10 @@ function validateStep2() {
   const phoneEl = document.getElementById("phone");
   const phone = phoneEl ? phoneEl.value.trim() : "";
 
-  if (phone === "" || !/^\d{10}$/.test(phone)) {
+  if (phone === "") {
+    setError("phone", "*Campo obligatorio");
+    valid = false;
+  } else if (!/^\d{10}$/.test(phone)) {
     setError("phone", "Ingresa un número válido de 10 dígitos.");
     valid = false;
   } else setError("phone", "");
@@ -252,8 +285,15 @@ function validateStep2() {
     const aName = aNameEl ? aNameEl.value.trim() : "";
     const aId = aIdEl ? aIdEl.value.trim() : "";
 
-    if (aName.length < 3) { setError("auth-name", "Nombre inválido"); valid = false; } else setError("auth-name", "");
-    if (!/^\d{10}$/.test(aId)) { setError("auth-id", "Cédula inválida"); valid = false; } else setError("auth-id", "");
+    if (!aName) {
+      setError("auth-name", "*Campo obligatorio");
+      valid = false;
+    } else if (aName.length < 3) { setError("auth-name", "Nombre inválido"); valid = false; } else setError("auth-name", "");
+    
+    if (!aId) {
+      setError("auth-id", "*Campo obligatorio");
+      valid = false;
+    } else if (!/^\d{10}$/.test(aId)) { setError("auth-id", "Cédula inválida"); valid = false; } else setError("auth-id", "");
   }
   return valid;
 }
@@ -306,6 +346,31 @@ function lockFields() {
   });
 }
 
+/**
+ * Verifica la validez de los campos de pago para activar o desactivar el botón
+ */
+function updatePayButtonState() {
+  const btnPay = document.getElementById("btn-pay");
+  const card = document.getElementById("card")?.value.replace(/\s/g, '') || "";
+  const exp = document.getElementById("exp")?.value.trim() || "";
+  const cvv = document.getElementById("cvv")?.value.trim() || "";
+  const terms = document.getElementById("terms")?.checked || false;
+
+  // Validación básica de formatos para habilitar el botón
+  const isValid = card.length === 16 && /^\d{2}\/\d{2}$/.test(exp) && cvv.length >= 3 && terms;
+
+  if (btnPay) {
+    btnPay.disabled = !isValid;
+    if (isValid) {
+      btnPay.classList.remove("bg-gray-300", "text-gray-500", "cursor-not-allowed", "opacity-50");
+      btnPay.classList.add("bg-coral", "text-white", "hover:bg-brown");
+    } else {
+      btnPay.classList.add("bg-gray-300", "text-gray-500", "cursor-not-allowed", "opacity-50");
+      btnPay.classList.remove("bg-coral", "text-white", "hover:bg-brown");
+    }
+  }
+}
+
 async function processPayment(e) {
   e.preventDefault();
 
@@ -319,9 +384,14 @@ async function processPayment(e) {
   if (modal) modal.classList.add("hidden"); // Resetear estado por si acaso
 
   // Validaciones del paso 3: Datos de pago
-  if (!/^\d{16}$/.test(card)) { setError("card", "Número de tarjeta inválido (16 dígitos)"); ok = false; } else setError("card", "");
-  if (!/^\d{2}\/\d{2}$/.test(exp)) { setError("exp", "Formato inválido (MM/AA)"); ok = false; } else setError("exp", "");
-  if (!/^\d{3,4}$/.test(cvv)) { setError("cvv", "CVV inválido (3-4 dígitos)"); ok = false; } else setError("cvv", "");
+  if (!card) { setError("card", "*Campo obligatorio"); ok = false; }
+  else if (!/^\d{16}$/.test(card)) { setError("card", "Número de tarjeta inválido (16 dígitos)"); ok = false; } else setError("card", "");
+  
+  if (!exp) { setError("exp", "*Campo obligatorio"); ok = false; }
+  else if (!/^\d{2}\/\d{2}$/.test(exp)) { setError("exp", "Formato inválido (MM/AA)"); ok = false; } else setError("exp", "");
+  
+  if (!cvv) { setError("cvv", "*Campo obligatorio"); ok = false; }
+  else if (!/^\d{3,4}$/.test(cvv)) { setError("cvv", "CVV inválido (3-4 dígitos)"); ok = false; } else setError("cvv", "");
 
   // Validación obligatoria de aceptación de términos
   if (!terms) {
@@ -388,11 +458,14 @@ async function processPayment(e) {
   if (modal) modal.classList.remove("hidden");
 
   const status = document.getElementById("status-msg");
+  const modalText = document.getElementById("payment-modal-text");
+  const modalSpinner = modal?.querySelector('.animate-spin');
+
   status.className = "text-center mt-2 text-brown font-semibold";
   status.textContent = "Procesando pedido...";
 
   try {
-    // Actualizar el teléfono del cliente en la tabla 'cliente' de la base de datos
+    // 1. Actualizar el teléfono del cliente
     if (phone) await updateClientProfile(profile.cliente.cli_ci_ruc, { cli_telefono: phone });
 
     // 2. Guardar el pedido en Supabase (esto registra pedidos, detalles, factura y autorización)
@@ -403,22 +476,38 @@ async function processPayment(e) {
       await updateProductStock(item.id, item.qty);
     }
 
-    status.className = "text-center mt-2 text-green-700 font-semibold";
+    // 4. Mostrar Éxito en el Modal y en la página (Solo tras completar las promesas anteriores)
+    if (modalSpinner) modalSpinner.classList.add('hidden');
+    if (modalText) {
+      modalText.className = "text-green-600 font-bold text-lg text-center mt-4";
+      modalText.innerHTML = "✅ ¡Pago Exitoso!<br><span class='text-sm text-gray-500 font-normal italic'>Su pedido ha sido registrado correctamente.</span>";
+    }
+
+    status.className = "text-center mt-4 text-green-700 font-bold";
     status.textContent = "✅ ¡Pago exitoso! Factura enviada al correo.";
-    
+
+    // Mostrar el botón para volver a la tienda tras el éxito
+    const postActions = document.getElementById("post-payment-actions");
+    if (postActions) postActions.classList.remove("hidden");
+
     if (modal) {
-      setTimeout(() => modal.classList.add("hidden"), 2000);
+      setTimeout(() => modal.classList.add("hidden"), 3000);
     }
 
     // Limpiar el carrito después de la compra exitosa
     localStorage.removeItem("bb_cart");
     if (typeof updateCartBadge === 'function') updateCartBadge();
-    
-    setTimeout(() => { location.href = "../index.html"; }, 3000);
   } catch (error) {
     console.error("Error al registrar el pedido:", error);
+    if (modalSpinner) modalSpinner.classList.add('hidden');
+    if (modalText) {
+      modalText.className = "text-red-600 font-bold text-center mt-4";
+      modalText.textContent = "❌ Error al procesar el pago.";
+    }
     status.className = "text-center mt-2 text-red-600 font-semibold";
-    status.textContent = "❌ Error al registrar el pedido. Intente nuevamente.";
-    // Opcionalmente podrías ocultar el modal para permitir al usuario corregir datos
+    status.textContent = "Hubo un problema técnico al registrar su pedido.";
+    if (modal) {
+      setTimeout(() => modal.classList.add("hidden"), 3000);
+    }
   }
 }

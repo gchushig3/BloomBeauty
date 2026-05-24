@@ -10,12 +10,64 @@ document.addEventListener("DOMContentLoaded", () => {
   const loginForm = document.getElementById("login");
   const signupForm = document.getElementById("signup");
 
+  // Forzar email a minúsculas en tiempo real para evitar conflictos de base de datos
+  const emailInputs = ["li-email", "su-email-reg"];
+  emailInputs.forEach(id => {
+    const input = document.getElementById(id);
+    if (input) {
+      input.addEventListener('input', (e) => {
+        e.target.value = e.target.value.toLowerCase();
+      });
+    }
+  });
+
+  // Quitar el estado de error cuando el usuario hace foco en el campo para corregirlo
+  document.querySelectorAll('input').forEach(input => {
+    input.addEventListener('focus', () => {
+      if (input.classList.contains('border-red-600')) {
+        setErr(input.id, "");
+      }
+    });
+  });
+
+  // Lógica para el botón "Volver" (Regresa a la página anterior a la autenticación)
+  const btnBack = document.getElementById("btn-back");
+  if (btnBack) {
+    btnBack.addEventListener("click", (e) => {
+      e.preventDefault();
+      // Si el usuario vino de otra página de la tienda, usamos el historial para volver
+      if (document.referrer && document.referrer.includes(window.location.host)) {
+        window.history.back();
+      } else {
+        // En caso de entrada directa, redirigimos al inicio
+        window.location.href = '../index.html';
+      }
+    });
+  }
+
   // Verificar si venimos desde el checkout para registrarse directamente
   const params = new URLSearchParams(window.location.search);
   
-  // Determinar la redirección tras éxito (si viene del checkout, vuelve al checkout)
-  const redirect = params.get('redirect');
-  const successTarget = redirect === 'checkout' ? 'checkout.html' : '../index.html';
+  // Determinar la redirección tras éxito
+  const redirectParam = params.get('redirect');
+  let successTarget = '../index.html';
+
+  if (redirectParam) {
+    // Si hay un parámetro explícito, tiene prioridad (ej: checkout o retorno de resetPass)
+    successTarget = redirectParam === 'checkout' ? 'checkout.html' : redirectParam;
+  } else if (document.referrer && document.referrer.includes(window.location.host)) {
+    // Filtramos para evitar que el retorno sea el propio login o páginas de recuperación
+    const authFlow = ['login.html', 'fortgotPass.html', 'resetPass.html'];
+    const isAuthPage = authFlow.some(p => document.referrer.includes(p));
+    if (!isAuthPage) successTarget = document.referrer;
+  }
+
+  // Actualizar el enlace de "¿Olvidaste tu contraseña?" para que herede el destino de éxito
+  const forgotLink = document.querySelector('a[href*="fortgotPass.html"]');
+  if (forgotLink && !forgotLink.href.includes('redirect=')) {
+    const sep = forgotLink.href.includes('?') ? '&' : '?';
+    forgotLink.href += `${sep}redirect=${encodeURIComponent(successTarget)}`;
+  }
 
   if (params.get('mode') === 'signup' && loginCont && signupCont) {
     loginCont.hidden = true;
@@ -50,11 +102,11 @@ document.addEventListener("DOMContentLoaded", () => {
       e.preventDefault();
       let ok = true;
 
-      const email = document.getElementById("li-email").value.trim();
+      const email = document.getElementById("li-email").value.trim().toLowerCase();
       const pass = document.getElementById("li-pass").value;
 
-      if (!email) { setErr("li-email", "Ingresa tu email o usuario"); ok = false; } else setErr("li-email", "");
-      if (pass.length < 1) { setErr("li-pass", "Ingresa tu contraseña"); ok = false; } else setErr("li-pass", "");
+      if (!email) { setErr("li-email", "*Campo obligatorio"); ok = false; } else setErr("li-email", "");
+      if (!pass) { setErr("li-pass", "*Campo obligatorio"); ok = false; } else setErr("li-pass", "");
 
       if (!ok) return;
 
@@ -117,17 +169,17 @@ document.addEventListener("DOMContentLoaded", () => {
       const name = document.getElementById("su-name").value.trim();
       const apellido = document.getElementById("su-apellido").value.trim();
       const cedula = document.getElementById("su-cedula").value.trim();
-      const email = document.getElementById("su-email-reg").value.trim();
+      const email = document.getElementById("su-email-reg").value.trim().toLowerCase();
       const p1 = document.getElementById("su-pass").value;
       const p2 = document.getElementById("su-pass2").value;
       const promo = document.getElementById("su-promo").checked;
 
-      if (name.length < 2) { setErr("su-name", "Nombre muy corto"); ok = false; } else setErr("su-name", "");
-      if (apellido.length < 2) { setErr("su-apellido", "Apellido muy corto"); ok = false; } else setErr("su-apellido", "");
-      if (!/^\d{10}$/.test(cedula)) { setErr("su-cedula", "La cédula debe tener 10 dígitos"); ok = false; } else setErr("su-cedula", "");
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { setErr("su-email-reg", "Email inválido"); ok = false; } else setErr("su-email-reg", "");
-      if (p1.length < 6) { setErr("su-pass", "Mínimo 6 caracteres"); ok = false; } else setErr("su-pass", "");
-      if (p1 !== p2) { setErr("su-pass2", "Las contraseñas no coinciden"); ok = false; } else setErr("su-pass2", "");
+      if (!name) { setErr("su-name", "*Campo obligatorio"); ok = false; } else if (name.length < 2) { setErr("su-name", "Nombre muy corto"); ok = false; } else setErr("su-name", "");
+      if (!apellido) { setErr("su-apellido", "*Campo obligatorio"); ok = false; } else if (apellido.length < 2) { setErr("su-apellido", "Apellido muy corto"); ok = false; } else setErr("su-apellido", "");
+      if (!cedula) { setErr("su-cedula", "*Campo obligatorio"); ok = false; } else if (!/^\d{10}$/.test(cedula)) { setErr("su-cedula", "La cédula debe tener 10 dígitos"); ok = false; } else setErr("su-cedula", "");
+      if (!email) { setErr("su-email-reg", "*Campo obligatorio"); ok = false; } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { setErr("su-email-reg", "Email inválido"); ok = false; } else setErr("su-email-reg", "");
+      if (!p1) { setErr("su-pass", "*Campo obligatorio"); ok = false; } else if (p1.length < 6) { setErr("su-pass", "Mínimo 6 caracteres"); ok = false; } else setErr("su-pass", "");
+      if (!p2) { setErr("su-pass2", "*Campo obligatorio"); ok = false; } else if (p1 !== p2) { setErr("su-pass2", "Las contraseñas no coinciden"); ok = false; } else setErr("su-pass2", "");
       
       // 2. Validación secundaria de campos del formulario
       if (!ok) {
@@ -164,17 +216,18 @@ document.addEventListener("DOMContentLoaded", () => {
         setTimeout(() => location.href = successTarget, 1500);
 
       } catch (error) {
-        console.error(error);
+        console.error("Detalle técnico del error:", error);
         if (typeof showToast === 'function') {
-          let userMsg = "No se pudo completar el registro: " + (error.message || "Problema de conexión");
+          let userMsg = "Ocurrió un error inesperado al crear tu cuenta. Intenta de nuevo.";
           
-          if (error.code === '23505') {
-            if (error.message.includes('pk_cliente') || error.message.includes('cli_ci_ruc')) {
-              userMsg = "La cédula ya se encuentra registrada.";
-              setErr("su-cedula", "Esta cédula ya tiene una cuenta");
-            } else if (error.message.includes('cli_correo')) {
-              userMsg = "El correo ya se encuentra registrado.";
-              setErr("su-email-reg", "Este correo ya tiene una cuenta");
+          // Captura de errores específicos de restricción única (Duplicate Key)
+          if (error.code === '23505' || (error.message && error.message.includes('unique'))) {
+            if (error.message.includes('cli_ci_ruc')) {
+              userMsg = "La cédula ingresada ya está registrada en el sistema.";
+              setErr("su-cedula", "Esta cédula ya tiene cuenta");
+            } else {
+              userMsg = "El correo electrónico ya está registrado. Intenta iniciar sesión.";
+              setErr("su-email-reg", "Este correo ya está en uso");
             }
           }
           showToast(userMsg);

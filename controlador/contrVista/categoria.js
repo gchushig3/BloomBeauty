@@ -144,7 +144,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (!matchesAll) return false;
       }
 
-      if (checkedSkins.length > 0 && p.skinType !== "todos" && !checkedSkins.includes(p.skinType)) return false;
+      if (checkedSkins.length > 0 && p.skinType !== "TODOS" && !checkedSkins.includes(p.skinType)) return false;
       if (p.price < fmin || p.price > fmax) return false;
       return true;
     });

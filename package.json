@@ -13,5 +13,18 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs"
+  "type": "commonjs",
+  "devDependencies": {
+    "autoprefixer": "^10.5.0",
+    "postcss": "^8.5.15",
+    "tailwindcss": "^4.3.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gchushig3/BloomBeauty.git"
+  },
+  "bugs": {
+    "url": "https://github.com/gchushig3/BloomBeauty/issues"
+  },
+  "homepage": "https://github.com/gchushig3/BloomBeauty#readme"
 }

@@ -8,8 +8,7 @@
     content="Bloom Beauty - Tienda de skincare con las mejores marcas: La Roche-Posay, Nivea, CeraVe, Eucerin y Bioderma." />
   <title>Bloom Beauty | Cuidado de tu piel</title>
 
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="controlador/contrVista/tailwind-config.js"></script>
+  <link href="vista/css/style.css" rel="stylesheet">
 
   <style>
     :focus-visible {
@@ -58,6 +57,9 @@
 
         <div class="min-w-full h-[250px] sm:h-[350px] md:h-[450px] lg:h-[550px] relative group">
           <img src="https://t3.ftcdn.net/jpg/07/13/17/14/360_F_713171446_OfoC6fQ4m03FqFA3vbgaYbe4561h5fXc.jpg"
+            srcset="https://t3.ftcdn.net/jpg/07/13/17/14/360_F_713171446_OfoC6fQ4m03FqFA3vbgaYbe4561h5fXc.jpg 1400w"
+            sizes="100vw"
+            alt="Banner promocional: 30% de descuento en cremas hidratantes" loading="eager" decoding="sync" width="1400" height="550"
             class="w-full h-full object-cover">
           <div class="absolute inset-0 bg-black/30 flex flex-col justify-center items-start px-8 md:px-16 text-white">
             <span class="bg-coral px-3 py-1 rounded-full text-[10px] md:text-xs font-bold uppercase mb-2">Oferta
@@ -73,6 +75,9 @@
 
         <div class="min-w-full h-[250px] sm:h-[350px] md:h-[450px] lg:h-[550px] relative">
           <img src="https://el-mejor.com/imagenes/tipos-de-tratamientos-antiedad-2048x1364.jpg"
+            srcset="https://el-mejor.com/imagenes/tipos-de-tratamientos-antiedad-2048x1364.jpg 1400w"
+            sizes="100vw"
+            alt="Tratamientos especializados antiedad para una piel joven" loading="lazy" decoding="async" width="1400" height="550"
             class="w-full h-full object-cover">
           <div class="absolute inset-0 bg-black/40 flex flex-col justify-center items-center text-center px-8 md:px-16 text-white">
             <h2 class="text-2xl md:text-4xl lg:text-6xl font-bold mb-2 leading-tight">Tratamientos Antiedad</h2>
@@ -86,6 +91,9 @@
 
         <div class="min-w-full h-[250px] sm:h-[350px] md:h-[450px] lg:h-[550px] relative">
           <img src="https://images.healthshots.com/healthshots/en/uploads/2023/11/18111254/skin-serums.jpg"
+            srcset="https://images.healthshots.com/healthshots/en/uploads/2023/11/18111254/skin-serums.jpg 1400w"
+            sizes="100vw"
+            alt="Nuevos serums nutritivos para el cuidado facial profundo" loading="lazy" decoding="async" width="1400" height="550"
             class="w-full h-full object-cover">
           <div class="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent flex flex-col justify-center items-start px-8 md:px-16 text-white">
             <h2 class="text-2xl md:text-4xl lg:text-6xl font-bold mb-2 leading-tight">Nuevos Serums</h2>
@@ -114,22 +122,28 @@
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
       <article class="offer-card bg-rose rounded-xl shadow-soft overflow-hidden flex flex-col cursor-pointer" data-href="vista/categoria.html?marca=la-roche-posay">
         <h3 class="text-lg font-bold text-center py-4 px-2">30% en La Roche-Posay</h3>
-        <img src="https://cdn.notinoimg.com/images/gallery/spage/LRP-320x350-citliva-2024_20241101_19.jpg"
-          alt="Productos La Roche-Posay en oferta" class="w-full h-56 object-contain bg-white" />
+        <img src="https://cdn.notinoimg.com/images/gallery/spage/LRP-320x350-citliva-2024_20241101_19.jpg" 
+          srcset="https://cdn.notinoimg.com/images/gallery/spage/LRP-320x350-citliva-2024_20241101_19.jpg 1x, https://cdn.notinoimg.com/images/gallery/spage/LRP-320x350-citliva-2024_20241101_19.jpg 2x"
+          sizes="(max-width: 768px) 100vw, 33vw"
+          alt="Gama de productos La Roche-Posay con descuento" loading="lazy" decoding="async" width="400" height="224" class="w-full h-56 object-contain bg-white" />
         <a class="block text-center bg-coral text-white font-semibold py-3 hover:bg-brown transition"
           href="vista/categoria.html?marca=la-roche-posay">Comprar aquí</a>
       </article>
       <article class="offer-card bg-rose rounded-xl shadow-soft overflow-hidden flex flex-col cursor-pointer" data-href="vista/categoria.html?marca=nivea">
         <h3 class="text-lg font-bold text-center py-4">20% en NIVEA</h3>
-        <img src="https://dermashop.ec/web/image/product.template/7389/image_1024" alt="Productos Nivea en oferta"
-          class="w-full h-56 object-contain bg-white" />
+        <img src="https://dermashop.ec/web/image/product.template/7389/image_1024" 
+          srcset="https://dermashop.ec/web/image/product.template/7389/image_1024 1x, https://dermashop.ec/web/image/product.template/7389/image_1024 2x"
+          sizes="(max-width: 768px) 100vw, 33vw"
+          alt="Promoción especial en productos Nivea" loading="lazy" decoding="async" width="400" height="224" class="w-full h-56 object-contain bg-white" />
         <a class="block text-center bg-coral text-white font-semibold py-3 hover:bg-brown transition"
           href="vista/categoria.html?marca=nivea">Comprar aquí</a>
       </article>
       <article class="offer-card bg-rose rounded-xl shadow-soft overflow-hidden flex flex-col cursor-pointer" data-href="vista/categoria.html?marca=cerave">
         <h3 class="text-lg font-bold text-center py-4">30% en CeraVe</h3>
-        <img src="https://dermashop.ec/web/image/product.template/7955/image_1024" alt="Productos CeraVe en oferta"
-          class="w-full h-56 object-contain bg-white" />
+        <img src="https://dermashop.ec/web/image/product.template/7955/image_1024" 
+          srcset="https://dermashop.ec/web/image/product.template/7955/image_1024 1x, https://dermashop.ec/web/image/product.template/7955/image_1024 2x"
+          sizes="(max-width: 768px) 100vw, 33vw"
+          alt="Hidratantes CeraVe recomendados por dermatólogos en oferta" loading="lazy" decoding="async" width="400" height="224" class="w-full h-56 object-contain bg-white" />
         <a class="block text-center bg-coral text-white font-semibold py-3 hover:bg-brown transition"
           href="vista/categoria.html?marca=cerave">Comprar aquí</a>
       </article>

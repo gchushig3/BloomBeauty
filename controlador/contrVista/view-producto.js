@@ -48,7 +48,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     detailContainer.innerHTML = `
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8 bg-white rounded-xl shadow-soft p-6">
         <div class="w-full overflow-hidden rounded-lg bg-gray-50">
-          <img src="${p.img}" alt="${p.name}" class="w-full h-auto aspect-square object-contain p-6 transition-transform hover:scale-105" />
+          <img src="${p.img}" alt="Detalle del producto ${p.name}" 
+               srcset="${p.img} 1x, ${p.img} 2x"
+               sizes="(max-width: 768px) 100vw, 50vw"
+               loading="eager" decoding="async" width="600" height="600" class="w-full h-auto aspect-square object-contain p-6 transition-transform hover:scale-105" />
         </div>
         <div class="flex flex-col">
           <div class="flex justify-between items-start gap-4">

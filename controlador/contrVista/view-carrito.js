@@ -40,7 +40,10 @@ async function renderCart() {
     return `
       <div class="flex gap-4 md:gap-6 bg-white border border-gray-100 rounded-2xl p-4 md:p-6 items-start shadow-soft transition-hover hover:shadow-card">
         <a href="producto.html?id=${p.id}" class="shrink-0">
-          <img src="${p.img}" alt="${p.name}" class="w-20 h-20 md:w-28 md:h-28 object-contain bg-gray-50 rounded-xl" />
+          <img src="${p.img}" alt="Miniatura de ${p.name}" 
+               srcset="${p.img} 1x, ${p.img} 2x"
+               sizes="112px"
+               loading="lazy" decoding="async" width="112" height="112" class="w-20 h-20 md:w-28 md:h-28 object-contain bg-gray-50 rounded-xl" />
         </a>
         <div class="flex-1 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
           <div>

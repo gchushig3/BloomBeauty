@@ -61,7 +61,10 @@ document.addEventListener("DOMContentLoaded", async () => {
           <a href="${baseUrl}categoria.html?marca=${slug}" 
              class="group w-full flex justify-center items-center p-2 grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-500 ease-out"
              aria-label="Ver productos de ${b.mar_nombre}">
-            <img src="${b.mar_url}" alt="Logo ${b.mar_nombre}" 
+            <img src="${b.mar_url}" alt="Logo oficial de la marca ${b.mar_nombre}" 
+                 srcset="${b.mar_url} 1x, ${b.mar_url} 2x"
+                 sizes="(max-width: 640px) 50vw, 20vw"
+                 loading="lazy" decoding="async" width="200" height="112"
                  class="h-16 md:h-24 lg:h-28 w-auto object-contain transition-transform duration-500 group-hover:scale-110" />
           </a>
         `;
@@ -288,8 +291,10 @@ window.productCardHTML = function(p) {
       </button>
 
       <a href="${productHref}" class="block w-full aspect-square md:aspect-[4/3] bg-gray-50 overflow-hidden">
-        <img src="${p.img}" alt="${p.name}" loading="lazy"
-             class="w-full h-full object-contain p-4 transition-transform hover:scale-105" />
+        <img src="${p.img}" alt="Imagen de producto: ${p.name}" 
+             srcset="${p.img} 1x, ${p.img} 2x"
+             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+             loading="lazy" decoding="async" width="300" height="300" class="w-full h-full object-contain p-4 transition-transform hover:scale-105" />
       </a>
       <div class="p-6 flex flex-col gap-3 flex-1">
         <p class="text-[10px] uppercase tracking-widest text-gray-400 font-bold">${p.brand}</p>

@@ -1,7 +1,10 @@
-/* Configuración global de Tailwind con la paleta de Bloom Beauty.
-   Debe cargarse INMEDIATAMENTE DESPUÉS del CDN de Tailwind y ANTES de usar clases personalizadas. */
-window.tailwind = window.tailwind || {};
-tailwind.config = {
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: [
+    "./vista/*.html",
+    "./index.html",
+    "./controlador/contrVista/*.js"
+  ],
   theme: {
     extend: {
       screens: {
@@ -25,4 +28,5 @@ tailwind.config = {
       },
     },
   },
+  plugins: [],
 };
